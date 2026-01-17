@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Call – Chatter Monkey</title>
+<style>
+  body {
+    margin: 0;
+    background: #f2f2f7;
+    font-family: system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .screen {
+    text-align: center;
+    width: 100%;
+    max-width: 360px;
+  }
+  /* Avatar container */
+  .avatar {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 30px auto;
+  }
+  /* Monkey head - round */
+  .monkey-head {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    background: #B8956A;
+    border-radius: 50%;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  /* Ears */
+  .ear {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #B8956A 0%, #9A7B5A 100%);
+    border-radius: 50%;
+    top: 50px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+  }
+  .ear.left { left: 5px; }
+  .ear.right { right: 5px; }
+  /* Inner ear - pink */
+  .ear::before {
+    content: '';
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #E8B4BC 0%, #D4A5AD 100%);
+    border-radius: 50%;
+    top: 12px;
+    left: 12px;
+  }
+  /* Emphasize right ear when listening */
+  .listening .ear.right {
+    transform: scale(1.3);
+  }
+  /* Face area - cream oval */
+  .face-area {
+    position: absolute;
+    width: 150px;
+    height: 140px;
+    background: linear-gradient(135deg, #F5E6D3 0%, #E8D5BD 100%);
+    border-radius: 45% 45% 50% 50%;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 3;
+  }
+  /* Eyes */
+  .eye {
+    position: absolute;
+    width: 28px;
+    height: 35px;
+    background: white;
+    border-radius: 50% 50% 50% 50%;
+    top: 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .eye.left { left: 30px; }
+  .eye.right { right: 30px; }
+  /* Pupil */
+  .eye::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 20px;
+    background: #2C2416;
+    border-radius: 50%;
+    top: 8px;
+    left: 7px;
+  }
+  /* Highlight in eye */
+  .eye::before {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    top: 10px;
+    left: 15px;
+    z-index: 1;
+  }
+  /* Nose - two nostrils */
+  .nose {
+    position: absolute;
+    width: 20px;
+    height: 16px;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .nose::before,
+  .nose::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 10px;
+    background: #2C2416;
+    border-radius: 50%;
+  }
+  .nose::before { left: 0; }
+  .nose::after { right: 0; }
+  /* Mouth - happy smile curve */
+  .mouth {
+    position: absolute;
+    width: 50px;
+    height: 25px;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 3px solid #000;
+    border-color: transparent transparent #000 transparent;
+    border-radius: 0 0 50% 50%;
+    transition: all 0.3s ease;
+  }
+  /* Close mouth when listening */
+  .listening .mouth {
+    border-width: 2px;
+  }
+  /* Mouth when talking - slightly bigger */
+  .mouth.open {
+    height: 30px;
+    animation: talk 0.3s ease-in-out infinite;
+  }
+  @keyframes talk {
+    0%, 100% { 
+      height: 30px;
+    }
+    50% { 
+      height: 28px;
+    }
+  }
+  button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: none;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  .buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+  }
+  .answer { background: #2ecc71; }
+  .decline { background: #e74c3c; }
+</style>
+</head>
+<body>
+<!-- INCOMING CALL -->
+<div class="screen" id="incoming">
+  <h2>📞 Incoming Call</h2>
+  <p>Chatter Monkey</p>
+  <div class="buttons">
+    <button class="answer" onclick="answer()">Answer</button>
+    <button class="decline" onclick="decline()">Decline</button>
+  </div>
+</div>
+<!-- CALL SCREEN -->
+<div class="screen" id="call" style="display:none;">
+  <div class="avatar" id="avatar">
+    <div class="ear left"></div>
+    <div class="ear right"></div>
+    <div class="monkey-head"></div>
+    <div class="face-area">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="nose"></div>
+      <div class="mouth" id="mouth"></div>
+    </div>
+  </div>
+  <p id="status">Idle</p>
+</div>
+<script>
+const mouth = document.getElementById("mouth");
+const avatar = document.getElementById("avatar");
+const statusText = document.getElementById("status");
+const introText =
+  "Hi, this is Chatter Monkey, a dynamic AI calling on behalf of Caffeine Cafe. " +
+  "Your voice is not being recorded, only your answers are being transcribed anonymously. " +
+  "This conversation can end at any time as per your request.";
+function answer() {
+  document.getElementById("incoming").style.display = "none";
+  document.getElementById("call").style.display = "block";
+  speakIntro();
+}
+function decline() {
+  document.getElementById("incoming").innerHTML = "<h2>Call Declined</h2>";
+}
+function speakIntro() {
+  const utter = new SpeechSynthesisUtterance(introText);
+  utter.onstart = () => {
+    statusText.textContent = "🗣️ Speaking...";
+    mouth.classList.add("open");
+    avatar.classList.remove("listening");
+  };
+  utter.onend = () => {
+    statusText.textContent = "🎧 Listening...";
+    mouth.classList.remove("open");
+    avatar.classList.add("listening");
+  };
+  speechSynthesis.speak(utter);
+}
+</script>
+</body>
+</html>
