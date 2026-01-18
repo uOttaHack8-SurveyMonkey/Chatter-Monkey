@@ -223,3 +223,54 @@
   font-size: 18px;
   font-weight: 500;
 }
+
+.subtitle {
+  margin-top: 20px;
+  padding: 15px 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.starRating {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.star {
+  font-size: 60px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ddd;
+  transition: all 0.2s ease;
+  padding: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.star:hover {
+  transform: scale(1.2);
+  color: #ffd700;
+}
+
+.star.filled {
+  color: #ffd700;
+}
+
+.thankYou {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #2ecc71;
+  font-weight: 600;
+}
