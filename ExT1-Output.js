@@ -43,7 +43,7 @@ const surveyAnalysis = {
     {
       menuProductName: "Berry Bliss Waffle", // Exact menu name
       mentionedAs: "Berry Waffles… the one with the mixed berries on top", // Words customer used
-      sentiment: "Positive",                  // "Positive" | "Negative" | "Neutral"
+      sentiment: "Negative",                  // "Positive" | "Negative" | "Neutral"
       confidence: 0.9                         // 0.0 – 1.0 inference confidence
     }
   ],
