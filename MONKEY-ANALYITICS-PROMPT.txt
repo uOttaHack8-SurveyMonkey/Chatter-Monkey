@@ -1,0 +1,112 @@
+READ THE TRANSCRIPT 
+Here are the menu options: 
+Cookies and Creme Waffle 
+Berry Bliss Waffle 
+Matcha Latte 
+Hot Coffee 
+Chocolate Foam Coffee / Iced Latte with Chocolate Foam
+Hot Chocolate 
+Strawberry lemonade 
+Ube Coffee 
+Pina Colada 
+Dalgona Coffee 
+
+Ensuring That Different Discriptions of Menu Items are Acceptable: 
+Can you make a list of different ways people can refer to the above menu items? And take those into consideration when anaylzing the transcript later. 
+If the coustomer mentions a product that is not exactly the name of the products on the menu, 
+attempt to inference if the customer is refering to a product using differnt words or if they are saying something irrelevent.  
+
+Input Data Required: 
+Did the customer consent to the Survey? 
+Yes - Increase the Counter for # of Surveys Completed 
+No - Stop, no data collection required. 
+
+Overall Service Rating: 
+Reading the Entire Survey, was the overall review of the Cafe Positive or Negative? 
+LOGIC: Go through each question and check if the answer to the question is positive or negative. Then see in total , did most of the surveys have positive reviews or negative ones? 
+Overall Positive - raise the positive service rating counter 
+Overall Negative - raise the negative service counter by one 
+
+Product Ratings: 
+Can you look through the transcript and see if the customer mentioned any of the products on the menu? 
+If so for each product can you tell me if the customer was positive or negative about each product. 
+LOGIC: provide me a list of each product mentioned by the customer and whether the product had a positive or negative review. 
+
+Customer advice and expectations: 
+Did the customer mention any improvements they would suggest or their expectations on the service or how the cafe should be run or advice on products? 
+LOGIC: provide a summary of key words of advice that the customer mentioned by quoting their words and summarizing key ideas that the customer presents. 
+**If the customer does not give any insight do not provide a summary.**
+
+Give me both a generative answer and a JS file of the input data I required. 
+
+Write the JS file in this formatt: 
+/**
+ * STANDARD SURVEY ANALYSIS OUTPUT TEMPLATE
+ * ----------------------------------------
+ * Do not rename variables.
+ * Do not remove fields.
+ * Only modify values based on transcript analysis.
+ */
+
+const surveyAnalysis = {
+  // ==============================
+  // SURVEY CONSENT
+  // ==============================
+  surveyConsent: {
+    given: false,              // Boolean: true if customer consented
+    actionTaken: "none"        // "counted" | "stopped"
+  },
+
+  // ==============================
+  // SURVEY COMPLETION FLAG
+  // ==============================
+  surveyCompleted: false,      // Boolean: true if consent was given and survey completed
+
+  // ==============================
+  // SERVICE RATING COUNTERS (PER RECORD FLAGS)
+  // ==============================
+  serviceRatingFlags: {
+    positive: false,           // true if overall sentiment is positive
+    negative: false            // true if overall sentiment is negative
+  },
+
+  // ==============================
+  // OVERALL SERVICE SENTIMENT
+  // ==============================
+  overallServiceRating: {
+    sentiment: "Neutral",      // "Positive" | "Negative" | "Neutral"
+    logic: "undetermined"      // Short explanation of how sentiment was decided
+  },
+
+  // ==============================
+  // PRODUCT SENTIMENT ANALYSIS
+  // ==============================
+  productRatings: [
+    {
+      menuProductName: "",     // Exact menu name
+      mentionedAs: "",         // Words customer used
+      sentiment: "Neutral",    // "Positive" | "Negative" | "Neutral"
+      confidence: 0.0          // 0.0 – 1.0 inference confidence
+    }
+  ],
+
+  // ==============================
+  // CUSTOMER ADVICE & EXPECTATIONS
+  // ==============================
+  customerAdvice: {
+    provided: false,           // Boolean
+    quotedKeywords: [],        // Direct phrases from customer
+    summarizedInsight: ""      // Short human-readable summary
+  },
+
+  // ==============================
+  // METADATA
+  // ==============================
+  metadata: {
+    transcriptReviewed: true,
+    inferenceUsed: false,
+    irrelevantMentionsIgnored: true
+  }
+};
+
+export default surveyAnalysis;
